@@ -6,20 +6,20 @@ import travel from '/public/image/travel.jpg';
 export const projectsData = [
     {
         id: 1,
-        name: 'AI Powered Financial App',
-        description: "Me and my team built an AI-powered financial mobile application. I have developed API using Express, Typescript, OpenAI, AWS, and MongoDB. Used OTP via AWS SES, Google, and Facebook for the authentication system. Built AI assistants using OpenAI's latest model and trained using our dataset. Voice messages are converted to text using AWS Transcribe. The app fetches data from Google Sheets and generates a PDF term sheet, sent via AWS SES.",
-        tools: ['Express', 'MongoDB', 'OpenAI API', 'AWS SES', 'AWS S3', 'Node Mailer', 'Joi', 'Puppeteer', 'EC2', 'PM2', 'Nginx'],
-        role: 'Backend Developer',
+        name: 'Budegting and Finance App',
+        description: "This app is designed to help users efficiently manage their finances by tracking daily expenses, income, loans, and personal financial goals. With its intuitive interface, users can easily record their spending, monitor income sources, manage loan details, and set and track progress toward financial goals. The app provides a comprehensive view of one's financial health, helping users make informed decisions and maintain financial stability..",
+        tools: ['Express', 'MongoDB', 'Gemini API', 'AWS SES', 'Node js', 'React','Mongoose'],
+        role: 'Full stack Developer',
         code: '',
         demo: '',
         image: crefin,
     },
     {
         id: 2,
-        name: 'Travel Agency App',
-        description: 'I have designed and developed a full-stack web app for 2Expedition, a travel agency in Armenia. I created the UI using NextJS, Typescript, MUI, TailwindCSS, Google Maps, Sun-Editor, and React Slick. The app supports multiple languages and currencies. I developed the API using NestJS, Typescript, MySQL, TypeORM, AWS, and Nodemailer. I deployed the front-end app to AWS Amplify and the back-end app to AWS EC2.',
-        tools: ['NextJS', 'Tailwind CSS', "Google Maps", "NestJS", "TypeScript", "MySQL", "AWS S3", "Sun-Editor", "Gmail Passkey"],
-        role: 'Full Stack Developer',
+        name: 'Nurse Schedule Manager',
+        description: 'The Nurse Schedule Manager app is designed to streamline the scheduling process for nursing staff. It automatically generates personalized schedules for nurses and displays them conveniently on the apps home page. This user-friendly tool helps nurses easily keep track of their shifts, duties, and assignments, ensuring they stay organized and can provide optimal patient care. With real-time updates and an intuitive interface, the Nurse Schedule Manager enhances efficiency and communication within healthcare facilities.',
+        tools: ['NextJS', 'Bootstrap', "PHP", "Xampp", "MySQL", "Gmail Passkey"],
+        role: 'Frontend developer',
         code: '',
         demo: '',
         image: travel,
@@ -34,16 +34,16 @@ export const projectsData = [
         demo: '',
         image: realEstate,
     },
-    {
-        id: 4,
-        name: 'Newsroom Management',
-        description: "My team and I developed a newspaper management dashboard application called Newsroom Management. As a front-end developer, I worked on creating the dashboard using NextJS, Material UI, Redux, Calendar, and other necessary npm libraries. We used React Redux to manage the application's state and React-hook-form and Sun Editor to handle forms.",
-        tools: ['NextJS', 'Material UI', 'Redux', 'Sun Editor', "Calendar"],
-        code: '',
-        demo: '',
-        image: ayla,
-        role: 'Full Stack Developer',
-    }
+    // {
+    //     id: 4,
+    //     name: 'Newsroom Management',
+    //     description: "My team and I developed a newspaper management dashboard application called Newsroom Management. As a front-end developer, I worked on creating the dashboard using NextJS, Material UI, Redux, Calendar, and other necessary npm libraries. We used React Redux to manage the application's state and React-hook-form and Sun Editor to handle forms.",
+    //     tools: ['NextJS', 'Material UI', 'Redux', 'Sun Editor', "Calendar"],
+    //     code: '',
+    //     demo: '',
+    //     image: ayla,
+    //     role: 'Full Stack Developer',
+    // }
 ];
 
 

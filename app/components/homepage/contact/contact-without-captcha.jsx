@@ -1,59 +1,74 @@
 "use client";
-// @flow strict
-import { isValidEmail } from '@/utils/check-email';
-import axios from 'axios';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
 import { TbMailForward } from "react-icons/tb";
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function ContactWithoutCaptcha() {
-  const [error, setError] = useState({ email: false, required: false });
-  const [userInput, setUserInput] = useState({
+function ContactForm() {
+  const [input, setInput] = useState({
     name: '',
     email: '',
     message: '',
   });
 
+  const [error, setError] = useState({
+    email: false,
+    required: false,
+  });
+
+  useEffect(() => {
+    emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
+  }, []);
+
   const checkRequired = () => {
-    if (userInput.email && userInput.message && userInput.name) {
+    if (input.email && input.message && input.name) {
       setError({ ...error, required: false });
     }
   };
 
   const handleSendMail = async (e) => {
     e.preventDefault();
-    if (!userInput.email || !userInput.message || !userInput.name) {
+    if (!input.email || !input.message || !input.name) {
       setError({ ...error, required: true });
+      toast.error('All fields are required!');
       return;
     } else if (error.email) {
+      toast.error('Please provide a valid email!');
       return;
     } else {
       setError({ ...error, required: false });
-    };
+    }
 
     const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
     const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-    const options = { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY };
 
     try {
-      const res = await emailjs.send(serviceID, templateID, userInput, options);
-      const teleRes = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/contact`, userInput);
+      const res = await emailjs.send(serviceID, templateID, {
+        from_name: input.name,
+        from_email: input.email,
+        message: input.message,
+      });
 
-      if (res.status === 200 || teleRes.status === 200) {
+      if (res.status === 200 || res.text === 'OK') {
         toast.success('Message sent successfully!');
-        setUserInput({
+        setInput({
           name: '',
           email: '',
           message: '',
         });
-      };
+      } else {
+        toast.error('Failed to send message. Please try again later.');
+      }
     } catch (error) {
-      toast.error(error?.text || error);
-    };
+      console.error('Email sending error:', error);
+      toast.error('An error occurred while sending the message.');
+    }
   };
 
   return (
     <div className="">
+      <ToastContainer />
       <p className="font-medium mb-5 text-[#16f2b3] text-xl uppercase">
         Contact with me
       </p>
@@ -69,9 +84,9 @@ function ContactWithoutCaptcha() {
               type="text"
               maxLength="100"
               required={true}
-              onChange={(e) => setUserInput({ ...userInput, name: e.target.value })}
+              onChange={(e) => setInput({ ...input, name: e.target.value })}
               onBlur={checkRequired}
-              value={userInput.name}
+              value={input.name}
             />
           </div>
 
@@ -82,16 +97,16 @@ function ContactWithoutCaptcha() {
               type="email"
               maxLength="100"
               required={true}
-              value={userInput.email}
-              onChange={(e) => setUserInput({ ...userInput, email: e.target.value })}
+              value={input.email}
+              onChange={(e) => setInput({ ...input, email: e.target.value })}
               onBlur={() => {
                 checkRequired();
-                setError({ ...error, email: !isValidEmail(userInput.email) });
+                setError({ ...error, email: !/^\S+@\S+\.\S+$/.test(input.email) });
               }}
             />
-            {error.email &&
+            {error.email && (
               <p className="text-sm text-red-400">Please provide a valid email!</p>
-            }
+            )}
           </div>
 
           <div className="flex flex-col gap-2">
@@ -101,18 +116,16 @@ function ContactWithoutCaptcha() {
               maxLength="500"
               name="message"
               required={true}
-              onChange={(e) => setUserInput({ ...userInput, message: e.target.value })}
+              onChange={(e) => setInput({ ...input, message: e.target.value })}
               onBlur={checkRequired}
               rows="4"
-              value={userInput.message}
+              value={input.message}
             />
           </div>
           <div className="flex flex-col items-center gap-2">
-            {error.required &&
-              <p className="text-sm text-red-400">
-                Email and Message are required!
-              </p>
-            }
+            {error.required && (
+              <p className="text-sm text-red-400">All fields are required!</p>
+            )}
             <button
               className="flex items-center gap-1 hover:gap-3 rounded-full bg-gradient-to-r from-pink-500 to-violet-600 px-5 md:px-12 py-2.5 md:py-3 text-center text-xs md:text-sm font-medium uppercase tracking-wider text-white no-underline transition-all duration-200 ease-out hover:text-white hover:no-underline md:font-semibold"
               role="button"
@@ -126,6 +139,6 @@ function ContactWithoutCaptcha() {
       </div>
     </div>
   );
-};
+}
 
-export default ContactWithoutCaptcha;
+export default ContactForm;
